@@ -53,18 +53,23 @@ Google Gemini API를 활용(혹은 멀티모달을 지원하는 다른 모델)
 ## 기술 스택
 
 1. 프론트엔드
+
    React, Tailwind CSS
 
 2. 백엔드
+
    Google Gemini API 직접 호출, MongoDB
 
 3. 디자인
+
    Figma(예정)
 
 4. AI 요소
+
    Google Gemini 2.5 Flash(음악 인식)
 
 5. 배포 환경
+
    Netlify 자동 배포(예정)
 
 ## 유료화 아이디어
