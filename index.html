@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GenreSense - Music Genre Recognition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .light-mode-bg {
+        /* To change the background image, replace the URL below with your image path */
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3e%3cdefs%3e%3cradialGradient id='a' cx='50%25' cy='50%25' r='50%25'%3e%3cstop offset='0%25' stop-color='%23f1f5f9' stop-opacity='0.1'/%3e%3cstop offset='100%25' stop-color='%23e2e8f0' stop-opacity='0.3'/%3e%3c/radialGradient%3e%3clinearGradient id='b' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3e%3cstop offset='0%25' stop-color='%23f8fafc'/%3e%3cstop offset='100%25' stop-color='%23f1f5f9'/%3e%3c/linearGradient%3e%3c/defs%3e%3crect width='100%25' height='100%25' fill='url(%23b)'/%3e%3ccircle cx='10%25' cy='20%25' r='400' fill='url(%23a)'/%3e%3ccircle cx='80%25' cy='90%25' r='500' fill='url(%23a)'/%3e%3ccircle cx='50%25' cy='50%25' r='300' fill='url(%23a)'/%3e%3cpath d='M-100 540 Q 480 400, 960 540 T 1920 540 T 2880 540' stroke='%23e2e8f0' stroke-width='2' fill='none' opacity='0.5'/%3e%3cpath d='M-100 600 Q 480 700, 960 600 T 1920 600 T 2880 600' stroke='%23e2e8f0' stroke-width='2' fill='none' opacity='0.4'/%3e%3c/svg%3e");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.26.0"
+  }
+}
+</script>
+</head>
+  <body class="antialiased">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

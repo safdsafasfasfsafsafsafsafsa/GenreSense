@@ -1,0 +1,5 @@
+{
+  "name": "GenreSense",
+  "description": "An application that analyzes audio files to identify the top 3 most likely music genres. Users can upload a track, view the genre probabilities, and suggest new genre tags. The app supports both English and Korean.",
+  "requestFramePermissions": []
+}
