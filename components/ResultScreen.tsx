@@ -6,7 +6,7 @@ import { useLocalization } from '../lib/localization';
 interface ResultScreenProps {
     result: AnalysisResult;
     onAnalyzeAnother: () => void;
-    onTagRequest: () => void;
+    onAddToCommunity: () => void;
 }
 
 const GenreBar: React.FC<{ genre: Genre, isPrimary: boolean }> = ({ genre, isPrimary }) => {
@@ -31,7 +31,7 @@ const GenreBar: React.FC<{ genre: Genre, isPrimary: boolean }> = ({ genre, isPri
 };
 
 
-export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onAnalyzeAnother, onTagRequest }) => {
+export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onAnalyzeAnother, onAddToCommunity }) => {
     const { t } = useLocalization();
     const [copied, setCopied] = useState(false);
     
@@ -74,8 +74,8 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onAnalyzeAno
                         <span>{copied ? t.copied : t.copyResults}</span>
                     </button>
                     <button
-                        onClick={onTagRequest}
-                        title={t.suggestTag}
+                        onClick={onAddToCommunity}
+                        title={t.addToCommunity as string}
                         className="bg-gray-200 hover:bg-gray-300 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
                     >
                         <PlusIcon />

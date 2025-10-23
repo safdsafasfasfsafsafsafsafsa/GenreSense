@@ -1,29 +1,21 @@
 import React, { useState, useMemo } from 'react';
 import { useLocalization } from '../lib/localization';
 import { SearchIcon } from './Icons';
+import type { CommunityEntry } from '../types';
 
-interface GenreEntry {
-    id: number;
-    title: string;
-    composer: string;
-    genre: string;
+interface CommunityViewProps {
+    entries: CommunityEntry[];
+    onAddEntry: (entry: Omit<CommunityEntry, 'id'>) => void;
 }
 
-const initialEntries: GenreEntry[] = [
-    { id: 1, title: "Bohemian Rhapsody", composer: "Queen", genre: "Rock Opera" },
-    { id: 2, title: "Blinding Lights", composer: "The Weeknd", genre: "Synth-pop" },
-    { id: 3, title: "Smells Like Teen Spirit", composer: "Nirvana", genre: "Grunge, Alternative Rock" },
-    { id: 4, title: "Take Five", composer: "The Dave Brubeck Quartet", genre: "Cool Jazz" },
-    { id: 5, title: "Billie Jean", composer: "Michael Jackson", genre: "Post-disco, R&B" },
-];
-
-export const CommunityView: React.FC = () => {
+export const CommunityView: React.FC<CommunityViewProps> = ({ entries, onAddEntry }) => {
     const { t } = useLocalization();
-    const [entries, setEntries] = useState<GenreEntry[]>(initialEntries);
     const [searchTerm, setSearchTerm] = useState('');
     const [newTitle, setNewTitle] = useState('');
     const [newComposer, setNewComposer] = useState('');
-    const [newGenre, setNewGenre] = useState('');
+    const [newGenre1, setNewGenre1] = useState('');
+    const [newGenre2, setNewGenre2] = useState('');
+    const [newGenre3, setNewGenre3] = useState('');
 
     const filteredEntries = useMemo(() => {
         if (!searchTerm) return entries;
@@ -32,23 +24,29 @@ export const CommunityView: React.FC = () => {
             (entry) =>
                 entry.title.toLowerCase().includes(lowercasedFilter) ||
                 entry.composer.toLowerCase().includes(lowercasedFilter) ||
-                entry.genre.toLowerCase().includes(lowercasedFilter)
+                entry.genre1.toLowerCase().includes(lowercasedFilter) ||
+                entry.genre2?.toLowerCase().includes(lowercasedFilter) ||
+                entry.genre3?.toLowerCase().includes(lowercasedFilter)
         );
     }, [entries, searchTerm]);
 
     const handleAddEntry = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!newTitle.trim() || !newComposer.trim() || !newGenre.trim()) return;
-        const newEntry: GenreEntry = {
-            id: Date.now(),
+        if (!newTitle.trim() || !newComposer.trim() || !newGenre1.trim()) return;
+        
+        onAddEntry({
             title: newTitle.trim(),
             composer: newComposer.trim(),
-            genre: newGenre.trim(),
-        };
-        setEntries([newEntry, ...entries]);
+            genre1: newGenre1.trim(),
+            genre2: newGenre2.trim() || undefined,
+            genre3: newGenre3.trim() || undefined,
+        });
+
         setNewTitle('');
         setNewComposer('');
-        setNewGenre('');
+        setNewGenre1('');
+        setNewGenre2('');
+        setNewGenre3('');
     };
 
     return (
@@ -64,41 +62,24 @@ export const CommunityView: React.FC = () => {
                         <h3 className="text-lg font-semibold mb-4">{t.addEntryTitle}</h3>
                         <form onSubmit={handleAddEntry} className="space-y-4">
                             <div>
-                                <label htmlFor="music-title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.musicTitle}</label>
-                                <input
-                                    type="text"
-                                    id="music-title"
-                                    value={newTitle}
-                                    onChange={(e) => setNewTitle(e.target.value)}
-                                    className="w-full bg-slate-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-900 dark:text-white focus:ring-purple-500 focus:border-purple-500"
-                                    required
-                                />
+                                <label htmlFor="music-title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.musicTitle}<span className="text-red-500 ml-1">*</span></label>
+                                <input type="text" id="music-title" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} className="w-full bg-slate-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-900 dark:text-white focus:ring-purple-500 focus:border-purple-500" required />
                             </div>
                             <div>
-                                <label htmlFor="music-composer" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.composer}</label>
-                                <input
-                                    type="text"
-                                    id="music-composer"
-                                    value={newComposer}
-                                    onChange={(e) => setNewComposer(e.target.value)}
-                                    className="w-full bg-slate-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-900 dark:text-white focus:ring-purple-500 focus:border-purple-500"
-                                    required
-                                />
+                                <label htmlFor="music-composer" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.composer}<span className="text-red-500 ml-1">*</span></label>
+                                <input type="text" id="music-composer" value={newComposer} onChange={(e) => setNewComposer(e.target.value)} className="w-full bg-slate-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-900 dark:text-white focus:ring-purple-500 focus:border-purple-500" required />
                             </div>
                             <div>
-                                <label htmlFor="music-genre" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.genre}</label>
-                                <input
-                                    type="text"
-                                    id="music-genre"
-                                    value={newGenre}
-                                    onChange={(e) => setNewGenre(e.target.value)}
-                                    className="w-full bg-slate-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-900 dark:text-white focus:ring-purple-500 focus:border-purple-500"
-                                    required
-                                />
+                                <label htmlFor="music-genre1" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.genre1}<span className="text-red-500 ml-1">*</span></label>
+                                <input type="text" id="music-genre1" value={newGenre1} onChange={(e) => setNewGenre1(e.target.value)} className="w-full bg-slate-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-900 dark:text-white focus:ring-purple-500 focus:border-purple-500" required />
                             </div>
-                            <div className="flex items-center space-x-2 bg-slate-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2">
-                                <div className="w-5 h-5 border-2 border-gray-400 dark:border-gray-500 rounded-sm flex-shrink-0"></div>
-                                <span className="text-sm text-gray-700 dark:text-gray-300">{t.captchaPlaceholder}</span>
+                             <div>
+                                <label htmlFor="music-genre2" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.genre2}</label>
+                                <input type="text" id="music-genre2" value={newGenre2} onChange={(e) => setNewGenre2(e.target.value)} className="w-full bg-slate-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-900 dark:text-white focus:ring-purple-500 focus:border-purple-500" />
+                            </div>
+                             <div>
+                                <label htmlFor="music-genre3" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.genre3}</label>
+                                <input type="text" id="music-genre3" value={newGenre3} onChange={(e) => setNewGenre3(e.target.value)} className="w-full bg-slate-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-900 dark:text-white focus:ring-purple-500 focus:border-purple-500" />
                             </div>
                             <button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">{t.add}</button>
                         </form>
@@ -109,7 +90,7 @@ export const CommunityView: React.FC = () => {
                      <div className="relative mb-4">
                         <input
                             type="text"
-                            placeholder={t.searchPlaceholder}
+                            placeholder={t.searchPlaceholder as string}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-full pl-10 pr-4 py-2 text-gray-900 dark:text-white focus:ring-purple-500 focus:border-purple-500"
@@ -125,7 +106,7 @@ export const CommunityView: React.FC = () => {
                                    <tr>
                                        <th scope="col" className="px-6 py-3 font-semibold text-gray-900 dark:text-white">{t.musicTitle}</th>
                                        <th scope="col" className="px-6 py-3 font-semibold text-gray-900 dark:text-white">{t.composer}</th>
-                                       <th scope="col" className="px-6 py-3 font-semibold text-gray-900 dark:text-white">{t.genre}</th>
+                                       <th scope="col" className="px-6 py-3 font-semibold text-gray-900 dark:text-white">{t.genres}</th>
                                    </tr>
                                </thead>
                                <tbody>
@@ -133,7 +114,13 @@ export const CommunityView: React.FC = () => {
                                        <tr key={entry.id} className="border-t border-gray-200 dark:border-gray-700">
                                            <td className="px-6 py-4 font-medium text-gray-800 dark:text-gray-200">{entry.title}</td>
                                            <td className="px-6 py-4 text-gray-600 dark:text-gray-400">{entry.composer}</td>
-                                           <td className="px-6 py-4 text-gray-600 dark:text-gray-400">{entry.genre}</td>
+                                           <td className="px-6 py-4 text-gray-600 dark:text-gray-400">
+                                               <div className="flex flex-col items-start gap-1">
+                                                   <span className="font-semibold text-gray-700 dark:text-gray-300">{entry.genre1}</span>
+                                                   {entry.genre2 && <span className="text-xs">{entry.genre2}</span>}
+                                                   {entry.genre3 && <span className="text-xs">{entry.genre3}</span>}
+                                               </div>
+                                           </td>
                                        </tr>
                                    )) : (
                                        <tr>
