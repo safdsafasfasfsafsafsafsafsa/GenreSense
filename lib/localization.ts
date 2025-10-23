@@ -43,21 +43,17 @@ const en: Translations = {
     analyzeAnother: 'Analyze Another File',
     copyResults: 'Copy',
     copied: 'Copied!',
-    suggestTag: 'Suggest a new genre tag for our database',
+    addToCommunity: 'Add to Community Board',
 
     // HistoryPanel
     historyTitle: 'History',
     historyEmpty: 'Your recent analyses will appear here.',
 
-    // TagRequestModal
-    tagRequestTitle: 'Suggest a Genre Tag',
-    tagRequestSubtitle: 'Help us improve by suggesting a new or more specific genre tag.',
-    tagName: 'Genre Name',
-    tagDescription: 'Description (Optional)',
-    tagReference: 'Reference Track or Artist (Optional)',
-    submit: 'Submit',
+    // AddToCommunityModal
+    addToCommunityTitle: 'Add to Community Board',
+    addToCommunitySubtitle: 'Enter the track information to add it to the community board.',
+    detectedGenres: 'Detected Genres',
     close: 'Close',
-    tagRequestSuccess: 'Thank you for your suggestion!',
 
     // CommunityView
     communityTitle: 'Community Genre Board',
@@ -65,11 +61,13 @@ const en: Translations = {
     addEntryTitle: 'Add New Entry',
     musicTitle: 'Title',
     composer: 'Artist / Composer',
-    genre: 'Genre',
-    captchaPlaceholder: "I'm not a robot",
+    genre1: '1st Genre',
+    genre2: '2nd Genre',
+    genre3: '3rd Genre',
     add: 'Add Entry',
     searchPlaceholder: 'Search by title, artist, or genre...',
     noResults: 'No results found.',
+    genres: 'Genres',
 };
 
 const ko: Translations = {
@@ -110,21 +108,17 @@ const ko: Translations = {
     analyzeAnother: '다른 파일 분석하기',
     copyResults: '복사',
     copied: '복사됨!',
-    suggestTag: '데이터베이스에 새 장르 태그 제안하기',
+    addToCommunity: '커뮤니티 보드에 추가',
 
     // HistoryPanel
     historyTitle: '기록',
     historyEmpty: '최근 분석 기록이 여기에 표시됩니다.',
 
-    // TagRequestModal
-    tagRequestTitle: '장르 태그 제안',
-    tagRequestSubtitle: '새롭거나 더 구체적인 장르 태그를 제안하여 개선에 도움을 주세요.',
-    tagName: '장르 이름',
-    tagDescription: '설명 (선택 사항)',
-    tagReference: '참고 트랙 또는 아티스트 (선택 사항)',
-    submit: '제출',
+    // AddToCommunityModal
+    addToCommunityTitle: '커뮤니티 보드에 추가',
+    addToCommunitySubtitle: '커뮤니티 보드에 추가할 트랙 정보를 입력하세요.',
+    detectedGenres: '분석된 장르',
     close: '닫기',
-    tagRequestSuccess: '제안해 주셔서 감사합니다!',
 
     // CommunityView
     communityTitle: '커뮤니티 장르 보드',
@@ -132,11 +126,13 @@ const ko: Translations = {
     addEntryTitle: '새 항목 추가',
     musicTitle: '제목',
     composer: '아티스트 / 작곡가',
-    genre: '장르',
-    captchaPlaceholder: '로봇이 아닙니다',
+    genre1: '1순위 장르',
+    genre2: '2순위 장르',
+    genre3: '3순위 장르',
     add: '항목 추가',
     searchPlaceholder: '제목, 아티스트 또는 장르로 검색...',
     noResults: '검색 결과가 없습니다.',
+    genres: '장르',
 };
 
 const translations = { en, ko };

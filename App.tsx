@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { AnalysisResult, HistoryItem, Locale } from './types';
+import type { AnalysisResult, HistoryItem, CommunityEntry } from './types';
 import { analyzeAudioFile } from './services/geminiService';
 import { MAX_ANALYSES_PER_DAY } from './constants';
 import { LocalizationProvider, useLocalization } from './lib/localization';
@@ -8,10 +8,20 @@ import { ThemeSwitcher } from './components/ThemeSwitcher';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { AnalyzerView } from './components/AnalyzerView';
 import { CommunityView } from './components/CommunityView';
+import { AddToCommunityModal } from './components/TagRequestModal';
 
 type View = 'upload' | 'analyzing' | 'result';
 type Page = 'analyzer' | 'community';
 type Theme = 'light' | 'dark';
+
+const initialCommunityEntries: CommunityEntry[] = [
+    { id: '1', title: "Bohemian Rhapsody", composer: "Queen", genre1: "Rock Opera" },
+    { id: '2', title: "Blinding Lights", composer: "The Weeknd", genre1: "Synth-pop" },
+    { id: '3', title: "Smells Like Teen Spirit", composer: "Nirvana", genre1: "Grunge", genre2: "Alternative Rock" },
+    { id: '4', title: "Take Five", composer: "The Dave Brubeck Quartet", genre1: "Cool Jazz" },
+    { id: '5', title: "Billie Jean", composer: "Michael Jackson", genre1: "Post-disco", genre2: "R&B" },
+];
+
 
 // Self-contained theme management component
 const ThemeManager: React.FC = () => {
@@ -43,6 +53,7 @@ const AppContent: React.FC = () => {
     const [page, setPage] = useState<Page>('analyzer');
     const [currentResult, setCurrentResult] = useState<AnalysisResult | null>(null);
     const [history, setHistory] = useState<HistoryItem[]>([]);
+    const [communityEntries, setCommunityEntries] = useState<CommunityEntry[]>(initialCommunityEntries);
     const [error, setError] = useState<string | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [analysesLeft, setAnalysesLeft] = useState(MAX_ANALYSES_PER_DAY);
@@ -121,6 +132,29 @@ const AppContent: React.FC = () => {
         setError(null);
     };
 
+    const handleAddEntryFromCommunityForm = (entry: Omit<CommunityEntry, 'id'>) => {
+        const newEntry: CommunityEntry = {
+            id: crypto.randomUUID(),
+            ...entry
+        };
+        setCommunityEntries([newEntry, ...communityEntries]);
+    };
+
+    const handleConfirmAddToCommunity = ({ title, composer }: { title: string, composer: string }) => {
+        if (!currentResult) return;
+
+        const newEntry: CommunityEntry = {
+            id: crypto.randomUUID(),
+            title,
+            composer,
+            genre1: currentResult.top3[0]?.genre,
+            genre2: currentResult.top3[1]?.genre,
+            genre3: currentResult.top3[2]?.genre,
+        };
+        setCommunityEntries([newEntry, ...communityEntries]);
+        setIsModalOpen(false);
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans transition-colors duration-300">
             <header className="py-4 px-6 md:px-8 border-b border-gray-200 dark:border-gray-700/50 sticky top-0 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md z-10">
@@ -155,19 +189,23 @@ const AppContent: React.FC = () => {
                             currentResult={currentResult}
                             error={error}
                             history={history}
-                            isModalOpen={isModalOpen}
                             analysesLeft={analysesLeft}
                             onAnalysis={handleAnalysis}
                             onSelectHistory={handleSelectHistory}
                             onAnalyzeAnother={handleAnalyzeAnother}
-                            onModalOpen={() => setIsModalOpen(true)}
-                            onModalClose={() => setIsModalOpen(false)}
+                            onAddToCommunity={() => setIsModalOpen(true)}
                         />
                     ) : (
-                        <CommunityView />
+                        <CommunityView entries={communityEntries} onAddEntry={handleAddEntryFromCommunityForm} />
                     )}
                 </div>
             </main>
+            <AddToCommunityModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSubmit={handleConfirmAddToCommunity}
+                result={currentResult}
+            />
         </div>
     );
 };

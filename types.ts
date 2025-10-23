@@ -20,3 +20,12 @@ export interface HistoryItem {
 }
 
 export type Locale = 'en' | 'ko';
+
+export interface CommunityEntry {
+    id: string;
+    title: string;
+    composer: string;
+    genre1: string;
+    genre2?: string;
+    genre3?: string;
+}
